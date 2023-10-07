@@ -1,5 +1,6 @@
 package com.main.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class Customer {
     private Long customerId;
     @Column(name = "username", nullable = false, unique = true)
     private String username;
+    @JsonIgnore
     @Column(name = "password", nullable = false, length = 100)
     private String password;
     @Column(name = "email", nullable = false, unique = true)
@@ -30,8 +32,12 @@ public class Customer {
     private String firstName;
     @Column(name = "last_name", nullable = false)
     private String lastName;
+    @JsonIgnore
     @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Address> addressList = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VerificationToken> verificationTokenList = new ArrayList<>();
 
 
 
